@@ -3,35 +3,33 @@ class Task {
   String? id;
   String? title;
   String? description;
-  DateTime? dateTime; // Nullable DateTime
+  DateTime? dateTime;
   bool? isDone;
 
-  Task({
-    this.id = '',
-    required this.title,
-    required this.description,
-    this.dateTime, // Nullable DateTime
-    this.isDone = false,
-  });
+  Task(
+      {this.id = '',
+        required this.title,
+        required this.description,
+        required this.dateTime,
+        this.isDone = false});
 
-  Task.fromFireStore(Map<String, dynamic> data)
-      : this(
-    id: data['id'],
-    title: data['title'],
-    description: data['description'],
-    dateTime: data['dateTime'] != null
-        ? DateTime.fromMicrosecondsSinceEpoch(data['dateTime'])
-        : null, // Handle nullable value
-    isDone: data['isDone'],
+  /// Map => object (Task)
+  Task.fromFireStore(Map<String,dynamic> data):this(
+      id: data['id'] as String?,
+      title: data['title'] as String?,
+      description: data['description'] as String?,
+      dateTime: DateTime.fromMillisecondsSinceEpoch(data['dateTime']) ,
+      isDone: data['isDone']
   );
 
-  Map<String, dynamic> toFiresStore() {
+  /// object => Map (json)
+  Map<String,dynamic> toFireStore(){
     return {
-      'id': id,
-      'title': title,
-      'description': description,
-      'dateTime': dateTime?.millisecondsSinceEpoch, // Nullable DateTime
-      'isDone': isDone,
+      'id' : id ,
+      'title' : title ,
+      'description' : description ,
+      'dateTime' : dateTime?.millisecondsSinceEpoch ,
+      'isDone' : isDone
     };
   }
 }

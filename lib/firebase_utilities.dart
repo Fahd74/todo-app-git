@@ -6,7 +6,7 @@ class FirebaseUtilities{
     return FirebaseFirestore.instance.collection(Task.collectionName).
     withConverter<Task>(
         fromFirestore: (snapshot, options) => Task.fromFireStore(snapshot.data()!),
-        toFirestore: (task,options) => task.toFiresStore()
+        toFirestore: (task,options) => task.toFireStore()
     );
   }
 

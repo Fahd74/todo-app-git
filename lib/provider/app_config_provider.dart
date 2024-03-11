@@ -17,13 +17,13 @@ class ListProvider extends ChangeNotifier{
     tasksList = querySnapshot.docs.map((doc){
       return doc.data();
     }).toList();
-    tasksList = tasksList.where((task){
+    tasksList = tasksList.where((task) {
       if(task.dateTime?.day == selectDate.day &&
-          task.dateTime?.month == selectDate.day &&
+          task.dateTime?.month == selectDate.month &&
           task.dateTime?.year == selectDate.year){
-        return true;
+        return true ;
       }
-      return false;
+      return false ;
     }).toList();
     tasksList.sort(
         (Task task1 ,Task task2){
