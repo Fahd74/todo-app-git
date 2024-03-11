@@ -1,7 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 
-class MyTheme{
+class MyTheme {
   static Color primaryLD = Color(0xff5D9CEC);
   static Color primaryLight = Color(0xffDFECDB);
   static Color primaryDark = Color(0xff060E1E);
@@ -11,7 +11,6 @@ class MyTheme{
   static Color greyColor = Color(0xffC8C9CB);
   static Color redColor = Color(0xffEC4B4B);
   static Color greenColor = Color(0xff61E757);
-
 
   static ThemeData lightTheme = ThemeData(
     backgroundColor: primaryLight,
@@ -34,16 +33,15 @@ class MyTheme{
       backgroundColor: primaryLD,
       shape: StadiumBorder(
           side: BorderSide(
-              color: whiteColor,
-              width: 4,
-          )
-      ),
+        color: whiteColor,
+        width: 4,
+      )),
     ),
     textTheme: TextTheme(
       titleLarge: TextStyle(
-          fontSize: 25,
-          fontWeight: FontWeight.bold,
-          color: whiteColor,
+        fontSize: 25,
+        fontWeight: FontWeight.bold,
+        color: whiteColor,
       ),
       titleMedium: TextStyle(
         fontSize: 20,
@@ -51,10 +49,7 @@ class MyTheme{
         color: blackColor,
       ),
       titleSmall: TextStyle(
-          fontSize: 17,
-          fontWeight: FontWeight.bold,
-          color: blackColor
-      ),
+          fontSize: 17, fontWeight: FontWeight.bold, color: blackColor),
     ),
   );
   static ThemeData darkTheme = ThemeData(
@@ -77,26 +72,22 @@ class MyTheme{
       backgroundColor: primaryLD,
       shape: StadiumBorder(
           side: BorderSide(
-            color: whiteColor,
-            width: 4,
-          )
-      ),
+        color: whiteColor,
+        width: 4,
+      )),
     ),
     textTheme: TextTheme(
       titleLarge: TextStyle(
-          fontSize: 25,
-          fontWeight: FontWeight.bold,
-          color: secondaryDark
-      ),
+          fontSize: 25, fontWeight: FontWeight.bold, color: secondaryDark),
       titleMedium: TextStyle(
         fontSize: 20,
         fontWeight: FontWeight.bold,
         color: whiteColor,
       ),
       titleSmall: TextStyle(
-          fontSize: 17,
-          fontWeight: FontWeight.bold,
-          color: whiteColor,
+        fontSize: 17,
+        fontWeight: FontWeight.bold,
+        color: whiteColor,
       ),
     ),
   );

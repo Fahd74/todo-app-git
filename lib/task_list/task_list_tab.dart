@@ -14,10 +14,9 @@ class _TaskListTabState extends State<TaskListTab> {
   @override
   Widget build(BuildContext context) {
     var listProvider = Provider.of<ListProvider>(context);
-      listProvider.refreshTasks();
+    listProvider.refreshTasks();
 
-    return Column(
-        children: [
+    return Column(children: [
       Container(
         color: MyTheme.primaryLD,
         child: CalendarTimeline(
@@ -40,7 +39,9 @@ class _TaskListTabState extends State<TaskListTab> {
       Expanded(
         child: ListView.builder(
           itemBuilder: (context, index) {
-            return TaskWidget(task: listProvider.tasksList[index],);
+            return TaskWidget(
+              task: listProvider.tasksList[index],
+            );
           },
           itemCount: listProvider.tasksList.length,
         ),

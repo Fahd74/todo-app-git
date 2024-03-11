@@ -7,7 +7,7 @@ import 'my_theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
-void main() async{
+void main() async {
   // Hello
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: CustomFirebaseOptions.androidOptions);
@@ -15,12 +15,10 @@ void main() async{
       Settings(cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED);
   await FirebaseFirestore.instance.disableNetwork();
   runApp(ChangeNotifierProvider(
-      create: (context) => ListProvider(),
-      child: MyApp()
-  )
-  );
+      create: (context) => ListProvider(), child: MyApp()));
 }
-class MyApp extends StatelessWidget{
+
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -29,8 +27,7 @@ class MyApp extends StatelessWidget{
       debugShowCheckedModeBanner: false,
       initialRoute: HomeScreen.routeName,
       routes: {
-        HomeScreen.routeName : (context) => HomeScreen(),
-
+        HomeScreen.routeName: (context) => HomeScreen(),
       },
     );
   }

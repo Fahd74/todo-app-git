@@ -3,39 +3,38 @@ import 'package:flutter/material.dart';
 import '../firebase_utilities.dart';
 import '../model/task.dart';
 
-class ListProvider extends ChangeNotifier{
-
+class ListProvider extends ChangeNotifier {
   ThemeMode appTheme = ThemeMode.light;
   List<Task> tasksList = [];
   DateTime selectDate = DateTime.now();
 
-  bool isDarkMode(){
+  bool isDarkMode() {
     return appTheme == ThemeMode.dark;
   }
+
   void refreshTasks() async {
-    QuerySnapshot<Task> querySnapshot= await FirebaseUtilities.getTasksCollection().get();
-    tasksList = querySnapshot.docs.map((doc){
+    QuerySnapshot<Task> querySnapshot =
+        await FirebaseUtilities.getTasksCollection().get();
+    tasksList = querySnapshot.docs.map((doc) {
       return doc.data();
     }).toList();
     tasksList = tasksList.where((task) {
-      if(task.dateTime?.day == selectDate.day &&
+      if (task.dateTime?.day == selectDate.day &&
           task.dateTime?.month == selectDate.month &&
-          task.dateTime?.year == selectDate.year){
-        return true ;
+          task.dateTime?.year == selectDate.year) {
+        return true;
       }
-      return false ;
+      return false;
     }).toList();
-    tasksList.sort(
-        (Task task1 ,Task task2){
-          return task1.dateTime!.compareTo(task2.dateTime!);
-        }
-    );
+    tasksList.sort((Task task1, Task task2) {
+      return task1.dateTime!.compareTo(task2.dateTime!);
+    });
 
     notifyListeners();
   }
-  void changeSelectDate(DateTime newDate){
+
+  void changeSelectDate(DateTime newDate) {
     selectDate = newDate;
     refreshTasks();
   }
-
 }

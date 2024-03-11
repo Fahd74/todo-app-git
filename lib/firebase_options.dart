@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+
 class CustomFirebaseOptions {
   static FirebaseOptions androidOptions = FirebaseOptions(
     appId: '1:795598619239:android:e56c97f8890e236acb4ac2',
