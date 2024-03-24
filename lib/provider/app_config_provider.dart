@@ -12,9 +12,9 @@ class ListProvider extends ChangeNotifier {
     return appTheme == ThemeMode.dark;
   }
 
-  void refreshTasks() async {
+  void refreshTasks(String uId) async {
     QuerySnapshot<Task> querySnapshot =
-        await FirebaseUtilities.getTasksCollection().get();
+        await FirebaseUtilities.getTasksCollection(uId).get();
     tasksList = querySnapshot.docs.map((doc) {
       return doc.data();
     }).toList();
@@ -33,8 +33,8 @@ class ListProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void changeSelectDate(DateTime newDate) {
+  void changeSelectDate(DateTime newDate,String uId) {
     selectDate = newDate;
-    refreshTasks();
+    refreshTasks(uId);
   }
 }

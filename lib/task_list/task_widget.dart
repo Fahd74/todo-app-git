@@ -6,6 +6,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 
 import '../model/task.dart';
 import '../provider/app_config_provider.dart';
+import '../provider/auth_provider.dart';
 
 class TaskWidget extends StatelessWidget {
   Task task;
@@ -13,6 +14,8 @@ class TaskWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var provider = Provider.of<ListProvider>(context);
+    var authProvider = Provider.of<AuthProviders>(context);
+
     return Container(
       margin: EdgeInsets.all(12),
       child: Slidable(
@@ -22,11 +25,11 @@ class TaskWidget extends StatelessWidget {
           children: [
             SlidableAction(
               onPressed: (context) {
-                FirebaseUtilities.deleteTaskFromFireStore(task)
+                FirebaseUtilities.deleteTaskFromFireStore(task,authProvider.currentUser!.id!)
                     .timeout(Duration(microseconds: 500),
                 onTimeout: (){
                       print('task deleted succuessfully');
-                      provider.refreshTasks();
+                      provider.refreshTasks(authProvider.currentUser!.id!);
                 });
               },
               backgroundColor: MyTheme.redColor,

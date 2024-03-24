@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:todo_app_2/my_theme.dart';
 import 'package:todo_app_2/task_list/task_widget.dart';
 import '../provider/app_config_provider.dart';
+import '../provider/auth_provider.dart';
 
 class TaskListTab extends StatefulWidget {
   @override
@@ -14,7 +15,8 @@ class _TaskListTabState extends State<TaskListTab> {
   @override
   Widget build(BuildContext context) {
     var listProvider = Provider.of<ListProvider>(context);
-    listProvider.refreshTasks();
+    var authProvider = Provider.of<AuthProviders>(context);
+    listProvider.refreshTasks(authProvider.currentUser!.id!);
 
     return Column(children: [
       Container(
@@ -24,7 +26,7 @@ class _TaskListTabState extends State<TaskListTab> {
           firstDate: DateTime.now().subtract(Duration(days: 365)),
           lastDate: DateTime.now().add(Duration(days: 365)),
           onDateSelected: (date) {
-            listProvider.changeSelectDate(date);
+            listProvider.changeSelectDate(date,authProvider.currentUser!.id!);
           },
           leftMargin: 20,
           monthColor: MyTheme.blackColor,

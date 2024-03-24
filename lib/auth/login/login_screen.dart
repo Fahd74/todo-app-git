@@ -1,12 +1,26 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_app_2/components/custom_text_form_field.dart';
+import 'package:todo_app_2/dialog_utils.dart';
+import 'package:todo_app_2/firebase_utilities.dart';
 
+import '../../home/home_screen.dart';
+import '../../provider/auth_provider.dart';
 import '../register/register_screen.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   static const String routeName = 'login';
-  var passwordController = TextEditingController();
-  var emailController = TextEditingController();
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  var passwordController = TextEditingController(text: '12345678');
+
+  var emailController = TextEditingController(text: 'fahd@l555.com');
+
   var formKey = GlobalKey<FormState>();
 
   @override
@@ -101,9 +115,60 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  void login() {
+  Future<void> login() async {
     if (formKey.currentState?.validate() == true) {
       //todo: register with firebase auth
+      DialogUtils.showLoading(context, 'Loading');
+      try {
+        final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: emailController.text,
+          password: passwordController.text,
+        );
+        var user = await FirebaseUtilities.readUserFromFireStore(credential.user?.uid??'');
+        if(user == null){
+          return ;
+        }
+        var authProvider = Provider.of<AuthProviders>(context,listen: false);
+        authProvider.updateUser(user);
+        //todo: hide loading
+        DialogUtils.hideLoading(context);
+        //todo: show message
+        DialogUtils.showMessage(
+            context, 'Login Succuessfully',
+            title: 'Success',
+            posActionName: 'Ok',
+            posAction: (){Navigator.of(context).pushNamed(HomeScreen.routeName);
+            });
+        print(credential.user?.uid??'');
+      }
+      on FirebaseAuthException catch (e) {
+        if (e.code == 'user-not-found') {
+          //todo: hide loading
+          DialogUtils.hideLoading(context);
+          //todo: show message
+          DialogUtils.showMessage(context, 'No user found for that email.', title: 'Error',
+              posActionName: 'Ok');
+          print('No user found for that email.');
+        } else if (e.code == 'wrong-password') {
+          //todo: hide loading
+          DialogUtils.hideLoading(context);
+          //todo: show message
+          DialogUtils.showMessage(context, 'Wrong password provided for that user.', title: 'Error',
+              posActionName: 'Ok');
+          print('Wrong password provided for that user.');
+        }
+      }
+      catch(e){
+        //todo: hide loading
+        DialogUtils.hideLoading(context);
+        //todo: show message
+        DialogUtils.showMessage(
+            context, '${e.toString()}',
+            title: 'Error',
+            posActionName: 'Ok',
+            );
+        print(e.toString());
+      }
     }
   }
 }

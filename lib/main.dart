@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app_2/home/home_screen.dart';
 import 'package:todo_app_2/provider/app_config_provider.dart';
+import 'package:todo_app_2/provider/auth_provider.dart';
 import 'auth/login/login_screen.dart';
 import 'auth/register/register_screen.dart';
 import 'my_theme.dart';
@@ -13,11 +14,15 @@ void main() async {
   // Hello
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: CustomFirebaseOptions.androidOptions);
-  FirebaseFirestore.instance.settings =
-      Settings(cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED);
-  await FirebaseFirestore.instance.disableNetwork();
-  runApp(ChangeNotifierProvider(
-      create: (context) => ListProvider(), child: MyApp()));
+  // FirebaseFirestore.instance.settings =
+  //     Settings(cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED);
+  // await FirebaseFirestore.instance.enableNetwork();
+  runApp(MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => ListProvider()),
+        ChangeNotifierProvider(create: (context)=> AuthProviders()),
+      ],
+      child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {

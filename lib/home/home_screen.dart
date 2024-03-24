@@ -5,6 +5,8 @@ import 'package:provider/provider.dart';
 import 'package:todo_app_2/settings/settings_tab.dart';
 import 'package:todo_app_2/task_list/task_list_tab.dart';
 
+import '../provider/auth_provider.dart';
+
 class HomeScreen extends StatefulWidget {
   static const String routeName = "home_screen";
 
@@ -17,12 +19,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var authProvider = Provider.of<AuthProviders>(context);
     var provider = Provider.of<ListProvider>(context);
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
         title:
-            Text("To Do List", style: Theme.of(context).textTheme.titleLarge),
+            Text("To Do List ${authProvider.currentUser!.name}", style: Theme.of(context).textTheme.titleLarge),
       ),
       bottomNavigationBar: BottomAppBar(
         shape: CircularNotchedRectangle(),

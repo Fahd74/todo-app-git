@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:todo_app_2/dialog_utils.dart';
 import 'package:todo_app_2/firebase_utilities.dart';
 import 'package:todo_app_2/model/task.dart';
 import 'package:todo_app_2/provider/app_config_provider.dart';
+import 'package:todo_app_2/provider/auth_provider.dart';
 
 class AddTaskButtonSheet extends StatefulWidget {
   @override
@@ -117,10 +119,22 @@ class _AddTaskButtonSheetState extends State<AddTaskButtonSheet> {
     if (formKey.currentState?.validate() == true) {
       Task task =
           Task(title: title, description: description, dateTime: selectDate);
-      FirebaseUtilities.addTaskToFireStore(task)
-          .timeout(Duration(microseconds: 500), onTimeout: () {
+      DialogUtils.showLoading(context,'Loading...');
+      var authProvider = Provider.of<AuthProviders>(context,listen: false);
+      FirebaseUtilities.addTaskToFireStore(task,authProvider.currentUser!.id!)
+          .then((value) {
+        DialogUtils.hideLoading(context);
+        DialogUtils.showMessage(context, 'Task added Successfully',
+        posActionName: 'Ok',
+        posAction: (){
+          Navigator.pop(context);
+        });
+
+      })
+          .timeout(Duration(microseconds: 500),
+          onTimeout: () {
         print('task added succuessfully');
-        listProvider.refreshTasks();
+        listProvider.refreshTasks(authProvider.currentUser!.id!);
         Navigator.pop(context);
       });
     }
