@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app_2/home/home_screen.dart';
 import 'package:todo_app_2/provider/app_config_provider.dart';
+import 'auth/login/login_screen.dart';
 import 'auth/register/register_screen.dart';
 import 'my_theme.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -30,6 +31,8 @@ class MyApp extends StatelessWidget {
       routes: {
         HomeScreen.routeName: (context) => HomeScreen(),
         RegisterScreen.routeName: (context) => RegisterScreen(),
+        LoginScreen.routeName: (context) => LoginScreen(),
+
       },
     );
   }
